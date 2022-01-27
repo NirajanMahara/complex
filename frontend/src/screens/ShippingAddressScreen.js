@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveShippingAddress } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
 
 export default function ShippingAddressScreen(props) {
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
+
+  if (!userInfo) {
+    props.history.push('/signin');
+  }
+
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -14,6 +21,7 @@ export default function ShippingAddressScreen(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // TODO: dispatch save shipping address action
     dispatch(
       saveShippingAddress({ fullName, address, city, postalCode, country })
     );
