@@ -58,7 +58,7 @@ export default function OrderScreen(props) {
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
-    <MessageBox variant='danger'>{error}</MessageBox>
+    <MessageBox variant='error'>{error}</MessageBox>
   ) : (
     <div>
       <h1>Order {order._id}</h1>
