@@ -5,6 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "cd frontend && npm install && npm run build",
     "start": "nodemon --watch backend --exec node --experimental-modules backend/server.js"
   },
   "repository": {
@@ -30,5 +31,9 @@
     "eslint": "^8.7.0",
     "eslint-plugin-react": "^7.28.0",
     "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": "16.0.0",
+    "npm": "7.10.0"
   }
 }
