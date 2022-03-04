@@ -1,7 +1,7 @@
 /* Add tailwindCSS directives to CSS */
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 html {
   font-size: 62.5%; /* 16px x 62.5 = 10px = 1rem */
@@ -40,7 +40,7 @@ header {
 
 main {
   grid-area: main;
-  /* padding: 1rem; */
+  padding: 1rem;
 }
 
 /* Home Screen  */
@@ -55,6 +55,9 @@ main {
   width: 100%;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
   margin-bottom: -100px;
+}
+.home__banner img {
+  border-radius: 0;
 }
 
 footer {
@@ -180,7 +183,7 @@ a.brand {
 
 /* Image */
 img {
-  /* border-radius: 0.5rem; */
+  border-radius: 0.5rem;
 }
 
 img.small {
@@ -203,7 +206,7 @@ img.large {
   background-color: #f8f8f8;
   border-radius: 0.5rem;
   margin: 1rem;
-  z-index: 1;
+  z-index: 0;
 }
 
 .card-body {
