@@ -355,3 +355,8 @@ img.large {
 .table button {
   margin: 0 0.2rem;
 }
+
+/* Carousel */
+.home__top-seller .carousel .slide img {
+  max-width: 30rem;
+}
