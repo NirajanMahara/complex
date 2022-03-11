@@ -203,10 +203,10 @@ img.small {
   width: 100%;
 }
 
-img.medium {
+/* img.medium {
   max-width: 29rem;
   width: 100%;
-}
+} */
 
 img.large {
   width: 100%;
@@ -219,6 +219,16 @@ img.large {
   border-radius: 0.5rem;
   margin: 1rem;
   z-index: 0;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.card__product {
+  width: 350px; /* 350px => 35rem */
+}
+
+.card__product img {
+  height: 350px;
+  width: 100%;
 }
 
 .card-body {
@@ -359,6 +369,7 @@ img.large {
 /* Carousel */
 .home__top-seller .carousel .slide img {
   max-width: 30rem;
+  max-height: 20rem;
 }
 
 /* Search */
