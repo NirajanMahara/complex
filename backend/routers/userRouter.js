@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import data from '../data.js';
 import User from '../models/userModel.js';
 import { generateToken, isAdmin, isAuth } from '../utils.js';
+import Otp from '../models/otpModel.js';
+import nodemailer from 'nodemailer';
 
 const userRouter = express.Router();
 
@@ -25,6 +27,101 @@ userRouter.get(
     res.send({ createdUsers });
   })
 );
+
+userRouter.post('/send-email', async (req, res) => {
+  // console.log(req.body.email);
+  let data = await User.findOne({ email: req.body.email });
+  // console.log(data);
+  const responseType = {};
+
+  if (data) {
+    let otpCode = Math.floor(100000 + Math.random() * 900000); // generate 6 digits and the first digit will never be 0.
+    let otpData = new Otp({
+      email: req.body.email,
+      code: otpCode,
+      expireIn: new Date().getTime() + 300 * 1000, // 5 minutes from now
+    });
+    let otpResponse = await otpData.save();
+    responseType.statusText = 'success';
+    mailer(req.body.email, otpCode);
+    responseType.message = 'please check your email';
+  } else {
+    responseType.statusText = 'failure';
+    responseType.message = 'email does not exist';
+  }
+  res.status(200).json(responseType);
+});
+
+userRouter.post('/forgot-password', async (req, res) => {
+  let { email, otp, password } = req.body;
+  password = bcrypt.hashSync(password, 8);
+  // console.log(email, otp, password, confirmPassword);
+  let data = await Otp.find({
+    email: email,
+    code: otp,
+  });
+  console.log(data);
+  const responseType = {};
+
+  if (data.length > 0) {
+    let currentTime = new Date().getTime();
+    let diffTime = data.expireIn - currentTime;
+    if (diffTime < 0) {
+      responseType.statusText = 'otp-expired';
+      responseType.message = 'OTP expired';
+    } else {
+      let user = await User.findOne({ email: email });
+      user.password = password;
+      user.save();
+      responseType.statusText = 'success';
+      responseType.message = 'password changed successfully';
+    }
+  } else {
+    responseType.statusText = 'otp-failed';
+    responseType.message = 'invalid OTP';
+  }
+  res.status(200).json(responseType);
+});
+
+const mailer = (email, otp) => {
+  /**
+  * https://stackoverflow.com/questions/45478293/
+    username-and-password-not-accepted-when-using-nodemailer
+  */
+
+  /**
+   * https://myaccount.google.com/lesssecureapps
+   */
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    secure: false,
+    auth: {
+      user: 'n.mahara2003@gmail.com',
+      pass: 'NirajanMahara@9868519098',
+    },
+  });
+
+  const mailOptions = {
+    from: 'n.mahara2003@gmail.com',
+    to: email,
+    subject: 'OTP Email using Node.js',
+    html:
+      '<h3>OTP for account verification is </h3>' +
+      "<h1 style='font-weight:bold;'>" +
+      otp +
+      '</h1>',
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+};
 
 userRouter.post(
   '/signin',

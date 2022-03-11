@@ -23,6 +23,10 @@ export default function SigninScreen(props) {
     dispatch(signin(email, password));
   };
 
+  const resetPassword = () => {
+    props.history.push('/forgot-password');
+  };
+
   useEffect(() => {
     if (userInfo) {
       props.history.push(redirect);
@@ -56,6 +60,9 @@ export default function SigninScreen(props) {
             required
             onChange={(e) => setPassword(e.target.value)}
           ></input>
+        </div>
+        <div>
+          <Link onClick={resetPassword}>Forgot your password?</Link>
         </div>
         <div>
           <label />

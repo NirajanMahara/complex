@@ -24,6 +24,7 @@ import SellerRoute from './components/SellerRoute';
 import SellerScreen from './screens/SellerScreen';
 import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
+import OtpScreen from './screens/OtpScreen';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -129,6 +130,7 @@ function App() {
             component={ProductEditScreen}
             exact
           ></Route>
+          <Route path='/forgot-password' component={OtpScreen}></Route>
           <Route path='/signin' component={SigninScreen}></Route>
           <Route path='/register' component={RegisterScreen}></Route>
           <Route path='/shipping' component={ShippingAddressScreen}></Route>
