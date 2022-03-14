@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function PasswordScreen(props) {
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
 
   const [otp, setOtp] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +12,7 @@ export default function PasswordScreen(props) {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      if (confirmPassword != '' && password != confirmPassword) {
+      if (confirmPassword !== '' && password !== confirmPassword) {
         alert('Password and Confirm Password does not match');
         return;
       }
