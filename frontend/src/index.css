@@ -1,7 +1,17 @@
 /* Add tailwindCSS directives to CSS */
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
+
+@layer components {
+  .link {
+    @apply cursor-pointer hover:underline;
+  }
+
+  .button {
+    @apply p-2 text-xs md:text-sm bg-gradient-to-b from-yellow-200 to-yellow-400 border border-yellow-300 rounded-sm hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 active:from-yellow-500;
+  }
+}
 
 html {
   font-size: 62.5%; /* 16px x 62.5 = 10px = 1rem */
@@ -15,6 +25,12 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --primary-color: #131921;
+
+  --secondary-color: #232f3e;
 }
 
 #root {
@@ -35,7 +51,7 @@ body {
 
 header {
   grid-area: header;
-  background-color: #203040;
+  background-color: var(--primary-color);
 }
 
 main {
@@ -44,25 +60,34 @@ main {
 }
 
 /* Home Screen  */
-.home {
+/* .home {
   max-width: 1500px;
   margin-left: auto;
   margin-right: auto;
-}
+} */
 
-.home__banner {
-  z-index: -1;
+.banner {
   width: 100%;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
   margin-bottom: -100px;
 }
-.home__banner img {
+.banner img {
   border-radius: 0;
 }
 
+/* .home__banner {
+  z-index: -1;
+  width: 100%;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  margin-bottom: -100px;
+} */
+/* .home__banner img {
+  border-radius: 0;
+} */
+
 footer {
   grid-area: footer;
-  background-color: #203040;
+  background-color: var(--primary-color);
   color: #ffffff;
 }
 
@@ -243,6 +268,12 @@ img.small {
   width: 100%;
 }
 
+img.product_image {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
 /* img.medium {
   max-width: 29rem;
   width: 100%;
@@ -250,6 +281,9 @@ img.small {
 
 img.large {
   width: 100%;
+  /* width: 500px; */
+  height: 500px;
+  object-fit: contain;
 }
 
 /* Card */
@@ -408,8 +442,8 @@ img.large {
 
 /* Carousel */
 .home__top-seller .carousel .slide img {
-  max-width: 30rem;
-  max-height: 20rem;
+  width: 30rem;
+  height: 20rem;
 }
 
 /* Search */

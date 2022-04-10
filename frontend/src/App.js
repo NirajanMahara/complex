@@ -59,7 +59,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className='grid-container'>
-        <header className='row'>
+        <header className='row z-50'>
           <div>
             <button
               type='button'
@@ -81,7 +81,7 @@ function App() {
           </div>
           <div>
             <Link to='/cart'>
-              Cart
+              Cart <i className='fa fa-shopping-cart'></i>{' '}
               {cartItems.length > 0 && (
                 <span className='badge'>{cartItems.length}</span>
               )}
@@ -147,6 +147,10 @@ function App() {
           </div>
         </header>
         <aside className={sidebarIsOpen ? 'open' : ''}>
+          <div class=' bg-amazon_blue text-white text-1xl h-20 py-5 px-5  '>
+            <i class='fa fa-user-circle'></i> Hello{' '}
+            {userInfo ? userInfo.name : ''}
+          </div>
           <ul className='categories'>
             <li>
               <strong>Categories</strong>
@@ -176,7 +180,7 @@ function App() {
             )}
           </ul>
         </aside>
-        <main>
+        <main className='bg-gray-100'>
           <Route path='/seller/:id' component={SellerScreen}></Route>
           <Route path='/cart/:id?' component={CartScreen}></Route>
           <Route path='/product/:id' component={ProductScreen} exact></Route>
