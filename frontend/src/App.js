@@ -149,8 +149,8 @@ function App() {
           </div>
         </header>
         <aside className={sidebarIsOpen ? 'open' : ''}>
-          <div class=' bg-amazon_blue text-white text-1xl h-20 py-5 px-5  '>
-            <i class='fa fa-user-circle'></i> Hello{' '}
+          <div className=' bg-amazon_blue text-white text-1xl h-20 py-5 px-5  '>
+            <i className='fa fa-user-circle'></i> Hello{' '}
             {userInfo ? userInfo.name : ''}
           </div>
           <ul className='categories'>
