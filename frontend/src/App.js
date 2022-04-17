@@ -31,6 +31,7 @@ import MessageBox from './components/MessageBox';
 import MapScreen from './screens/MapScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import Recommendation from './screens/Recommendation';
+import PageNotFound from './screens/PageNotFound';
 
 function App() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -266,6 +267,8 @@ function App() {
             component={Recommendation}
             exact
           ></Route>
+
+          <Route path='/404' component={PageNotFound} exact></Route>
 
           <Route path='/' component={HomeScreen} exact></Route>
         </main>
