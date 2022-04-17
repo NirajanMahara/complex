@@ -30,6 +30,7 @@ import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
 import MapScreen from './screens/MapScreen';
 import DashboardScreen from './screens/DashboardScreen';
+import Recommendation from './screens/Recommendation';
 
 function App() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -162,6 +163,9 @@ function App() {
                 <i className='fa fa-close'></i>
               </button>
             </li>
+            <li>
+              <Link to='/recommendation'>Recommendation for you</Link>
+            </li>
             {loadingCategories ? (
               <LoadingBox></LoadingBox>
             ) : errorCategories ? (
@@ -256,6 +260,12 @@ function App() {
             path='/orderlist/seller'
             component={OrderListScreen}
           ></SellerRoute>
+
+          <Route
+            path='/recommendation'
+            component={Recommendation}
+            exact
+          ></Route>
 
           <Route path='/' component={HomeScreen} exact></Route>
         </main>

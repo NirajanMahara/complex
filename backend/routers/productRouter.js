@@ -3,6 +3,7 @@ import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
 import Product from '../models/productModel.js';
 import User from '../models/userModel.js';
+import recommendModel from '../models/recommend.js';
 import { isAdmin, isAuth, isSellerOrAdmin } from '../utils.js';
 
 const productRouter = express.Router();
@@ -87,6 +88,22 @@ productRouter.get(
         .status(500)
         .send({ message: 'No seller found. first run /api/users/seed' });
     }
+  })
+);
+
+productRouter.post(
+  '/recommendation',
+  expressAsyncHandler(async (req, res) => {
+    const productsId = { ...req.body };
+    let ids = productsId.ids;
+    const products = await Product.find({ _id: { $in: ids } }).populate(
+      'seller',
+      'seller.name seller.logo'
+    );
+    if (products.length) {
+      return res.status(200).json({ status: 1, results: products });
+    }
+    res.status(400).json({ status: 0, message: 'Product Not Found' });
   })
 );
 
@@ -178,10 +195,18 @@ productRouter.post(
           .send({ message: 'You already submitted a review' });
       }
       const review = {
+        userId: req.user._id,
         name: req.user.name,
         rating: Number(req.body.rating),
         comment: req.body.comment,
       };
+      const rData = {
+        userId: req.user._id,
+        productId: productId,
+        ratings: Number(req.body.rating),
+      };
+
+      await recommendModel.create(rData);
       product.reviews.push(review);
       product.numReviews = product.reviews.length;
       product.rating =
