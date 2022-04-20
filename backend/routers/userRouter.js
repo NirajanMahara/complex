@@ -147,7 +147,10 @@ userRouter.post(
 userRouter.post(
   '/register',
   expressAsyncHandler(async (req, res) => {
+    const uuid = Date.now().toString().slice(-3);
+
     const user = new User({
+      user_id: uuid,
       name: req.body.name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
@@ -160,6 +163,7 @@ userRouter.post(
       email: createdUser.email,
       isAdmin: createdUser.isAdmin,
       isSeller: user.isSeller,
+
       token: generateToken(createdUser),
     });
   })

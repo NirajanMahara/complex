@@ -200,7 +200,11 @@ productRouter.post(
         rating: Number(req.body.rating),
         comment: req.body.comment,
       };
+
+      const user = await User.findById(req.user._id);
+      const userId = user.user_id;
       const rData = {
+        user_id: userId,
         userId: req.user._id,
         productId: productId,
         ratings: Number(req.body.rating),
