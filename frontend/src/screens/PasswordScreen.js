@@ -17,7 +17,7 @@ export default function PasswordScreen(props) {
         return;
       }
 
-      let url = 'http://localhost:5000/api/users/forgot-password';
+      let url = 'http://localhost:8000/api/users/forgot-password';
       let options = {
         method: 'POST',
         url: url,

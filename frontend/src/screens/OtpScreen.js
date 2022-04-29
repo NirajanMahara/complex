@@ -9,7 +9,7 @@ export default function OtpScreen(props) {
 
   const sendOtp = async () => {
     try {
-      let url = 'http://localhost:5000/api/users/send-email';
+      let url = 'http://localhost:8000/api/users/send-email';
       let options = {
         method: 'POST',
         url: url,
@@ -25,7 +25,7 @@ export default function OtpScreen(props) {
         alert(record.message);
       }
     } catch (e) {
-      alert('Something went wrong');
+      // alert('Something went wrong');
       alert(e);
     }
   };

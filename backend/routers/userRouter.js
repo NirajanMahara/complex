@@ -98,15 +98,15 @@ const mailer = (email, otp) => {
     port: 587,
     secure: false,
     auth: {
-      user: 'n.mahara2003@gmail.com',
-      pass: 'NirajanMahara@9868519098',
+      user: process.env.GOOGLE_MAIL,
+      pass: process.env.GOOGLE_PASS,
     },
   });
 
   const mailOptions = {
-    from: 'n.mahara2003@gmail.com',
+    from: process.env.GOOGLE_MAIL,
     to: email,
-    subject: 'OTP Email using Node.js',
+    subject: 'COMPLEX || OTP Email using Node.js',
     html:
       '<h3>OTP for account verification is </h3>' +
       "<h1 style='font-weight:bold;'>" +
