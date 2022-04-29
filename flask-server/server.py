@@ -35,7 +35,7 @@ model.fit(features)
 def index():
     # users = request.form.get("user_id")
     user_id = int(2)
-    distances,indices = model.kneighbors(pivoted_data.iloc[user_id,:].values.reshape(1,-1),n_neighbors=2)
+    distances,indices = model.kneighbors(pivoted_data.iloc[user_id,:].values.reshape(1,-1),n_neighbors=5)
     recommended_items = set()
     for i in range(0,len(distances.flatten())):
         if i == 0:

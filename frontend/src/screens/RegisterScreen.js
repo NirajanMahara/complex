@@ -12,8 +12,14 @@ export default function RegisterScreen(props) {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required('name is required')
-      .min(5, 'name must be at least 5 characters')
-      .max(20, 'name must not exceed 20 characters'),
+      .min(
+        2,
+        'name must be at least 2 characters and must not exceed 20 characters'
+      )
+      .max(
+        20,
+        'name must be at least 2 characters and must not exceed 20 characters'
+      ),
     email: Yup.string().required('email is required').email('email is invalid'),
     password: Yup.string()
       .required('password is required')
@@ -72,18 +78,18 @@ export default function RegisterScreen(props) {
 
   return (
     <div>
-      <form className='form' onSubmit={submitHandler}>
+      <form className="form" onSubmit={submitHandler}>
         <div>
           <h1>Create Account</h1>
         </div>
         {loading && <LoadingBox></LoadingBox>}
-        {error && <MessageBox variant='error'>{error}</MessageBox>}
+        {error && <MessageBox variant="error">{error}</MessageBox>}
         <div>
-          <label htmlFor='name'>Name</label>
+          <label htmlFor="name">Name</label>
           <input
-            type='text'
-            id='name'
-            placeholder='Enter name'
+            type="text"
+            id="name"
+            placeholder="Enter name"
             required
             onChange={(e) => {
               setName(e.target.value);
@@ -91,16 +97,16 @@ export default function RegisterScreen(props) {
             }}
             value={formik.values.name}
           ></input>
-          <div className='error'>
+          <div className="error">
             {formik.errors.name ? formik.errors.name : null}
           </div>
         </div>
         <div>
-          <label htmlFor='email'>Email address</label>
+          <label htmlFor="email">Email address</label>
           <input
-            type='email'
-            id='email'
-            placeholder='Enter email'
+            type="email"
+            id="email"
+            placeholder="Enter email"
             required
             onChange={(e) => {
               setEmail(e.target.value);
@@ -108,16 +114,16 @@ export default function RegisterScreen(props) {
             }}
             value={formik.values.email}
           ></input>
-          <div className='error'>
+          <div className="error">
             {formik.errors.email ? formik.errors.email : null}
           </div>
         </div>
         <div>
-          <label htmlFor='password'>Password</label>
+          <label htmlFor="password">Password</label>
           <input
-            type='password'
-            id='password'
-            placeholder='Enter password'
+            type="password"
+            id="password"
+            placeholder="Enter password"
             required
             onChange={(e) => {
               setPassword(e.target.value);
@@ -125,16 +131,16 @@ export default function RegisterScreen(props) {
             }}
             value={formik.values.password}
           ></input>
-          <div className='error'>
+          <div className="error">
             {formik.errors.password ? formik.errors.password : null}
           </div>
         </div>
         <div>
-          <label htmlFor='confirmPassword'>Confirm Password</label>
+          <label htmlFor="confirmPassword">Confirm Password</label>
           <input
-            type='password'
-            id='confirmPassword'
-            placeholder='Enter confirm password'
+            type="password"
+            id="confirmPassword"
+            placeholder="Enter confirm password"
             required
             onChange={(e) => {
               setConfirmPassword(e.target.value);
@@ -142,7 +148,7 @@ export default function RegisterScreen(props) {
             }}
             value={formik.values.confirmPassword}
           ></input>
-          <div className='error'>
+          <div className="error">
             {formik.errors.confirmPassword
               ? formik.errors.confirmPassword
               : null}
@@ -150,7 +156,7 @@ export default function RegisterScreen(props) {
         </div>
         <div>
           <label />
-          <button className='primary' type='submit'>
+          <button className="primary" type="submit">
             Register
           </button>
         </div>
