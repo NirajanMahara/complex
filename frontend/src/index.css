@@ -391,7 +391,7 @@ img.large {
   background-color: #203040;
   position: absolute;
   right: 0;
-  min-width: 12rem;
+  min-width: 15rem;
   padding: 1rem;
   z-index: 1;
   margin: 0;

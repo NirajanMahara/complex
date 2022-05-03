@@ -123,9 +123,14 @@ const mailer = (email, otp) => {
   });
 };
 
+
+// @desc    Authenticate a user
+// @route   POST /api/users/login
+// @access  Public
 userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
+    // Check for user email
     const user = await User.findOne({ email: req.body.email });
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
@@ -144,6 +149,9 @@ userRouter.post(
   })
 );
 
+// @desc    Register new user
+// @route   POST /api/users
+// @access  Public
 userRouter.post(
   '/register',
   expressAsyncHandler(async (req, res) => {

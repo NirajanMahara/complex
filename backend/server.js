@@ -9,6 +9,8 @@ import userRouter from './routers/userRouter.js';
 import orderRouter from './routers/orderRouter.js';
 import uploadRouter from './routers/uploadRouter.js';
 
+connectDB();
+
 dotenv.config();
 
 const app = express();
@@ -20,8 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
-
-connectDB();
 
 app.use('/api/uploads', uploadRouter);
 
@@ -38,6 +38,8 @@ app.get('/api/config/paypal', (req, res) => {
 app.get('/api/config/google', (req, res) => {
   res.send(process.env.GOOGLE_API_KEY || '');
 });
+
+// Serve frontend
 
 const __dirname = path.resolve();
 
