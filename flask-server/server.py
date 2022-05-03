@@ -1,5 +1,6 @@
 # import flask from import Flask
 from flask import Flask
+from flask import request
 import pymongo
 from pymongo import MongoClient
 import numpy as np
@@ -8,6 +9,7 @@ from flask import jsonify
 from flask_cors import CORS
 
 from scipy.sparse import csr_matrix
+
 from sklearn.neighbors import NearestNeighbors
 
 # app instance
@@ -26,29 +28,46 @@ data = pd.DataFrame(list(information.find()))
 rating_data = data[["user_id","productId","ratings"]]
 rating_data["user_id"] = rating_data["user_id"].astype(int)
 
-pivoted_data=rating_data.pivot_table(index='productId',columns='user_id',values='ratings').fillna(0)
-features= csr_matrix(pivoted_data.values)
-model = NearestNeighbors(metric='euclidean',algorithm='brute')
-model.fit(features)
+
+product_ratingCount = (rating_data.groupby(by =['productId'])['ratings'].count().reset_index().rename(columns = {'ratings':'totalRatingCount'})[['productId', 'totalRatingCount']])
+rating_with_totalRatingCount = pd.merge(rating_data, product_ratingCount[['productId','totalRatingCount']], on = 'productId')
+
+popularity_threshold = 1
+rating_popular_product = rating_with_totalRatingCount.query('totalRatingCount >= @popularity_threshold')
+
+product_features_df = rating_popular_product.pivot_table(index = 'productId', columns = 'user_id', values = 'ratings').fillna(0)
+
+
+product_rating_pivot_matrix = csr_matrix(product_features_df.values)
+
+
+model_knn = NearestNeighbors(metric = 'cosine', algorithm = 'brute')
+model_knn.fit(product_rating_pivot_matrix)
+
+
+
+
+
+
 
 @app.route('/recommend', methods=["POST", "GET"])
 def index():
     # users = request.form.get("user_id")
-    user_id = int(2)
-    distances,indices = model.kneighbors(pivoted_data.iloc[user_id,:].values.reshape(1,-1),n_neighbors=5)
-    recommended_items = set()
+    data =  request.get_json()
+    item = data["product"]
+    productRecommend=item
+    distances, indices = model_knn.kneighbors(product_features_df.loc[productRecommend,:].values.reshape(1,-1), n_neighbors = 5)
+    ind = indices.flatten()
+    dist = distances.flatten()
+    recommended_product =[]
     for i in range(0,len(distances.flatten())):
         if i == 0:
-            print('Recommendations for {0}:\n'.format(pivoted_data.index[user_id]))
+            print(f'recommendations for {productRecommend}:\n')
+        
         else:
-            print('{0}: {1}, with distance of {2}:'.format(i, pivoted_data.index[indices.flatten()[i]],distances.flatten()[i]))
-            recommended_items.add(pivoted_data.index[indices.flatten()[i]])
-    items = tuple(recommended_items)
-    products = []
-    for product in items:
-        products.append(product)
-    recommended = '{}'.format(items)
-    return jsonify(results = products)
+            print(f' {i}: {product_features_df.index[ind[i]]}, {dist[i]}')
+            recommended_product.append(product_features_df.index[ind[i]])
+    return jsonify(results = recommended_product)
 
     # popular_products = pd.DataFrame(Data.groupby('productId')['ratings'].count())
     # most_popular = popular_products.sort_values('ratings', ascending=False)

@@ -135,6 +135,7 @@ userRouter.post(
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         res.send({
+          product:user.recommend,
           _id: user._id,
           name: user.name,
           email: user.email,

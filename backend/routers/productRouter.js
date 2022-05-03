@@ -202,15 +202,9 @@ productRouter.post(
       };
 
       const user = await User.findById(req.user._id);
-      const userId = user.user_id;
-      const rData = {
-        user_id: userId,
-        userId: req.user._id,
-        productId: productId,
-        ratings: Number(req.body.rating),
-      };
+      user.recommend = product._id;
 
-      await recommendModel.create(rData);
+      await user.save();
       product.reviews.push(review);
       product.numReviews = product.reviews.length;
       product.rating =
